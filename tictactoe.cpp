@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cstdlib>
+#include <limits>
 
 using namespace std;
 
@@ -31,18 +32,33 @@ int main(){
 	  player = 2;
 	  mark = 'O';
 	}
-	cout << "Player " << player << " - enter your move: ";
 	
 	// 2. place mark
-	cin >> spot;
-	if (square[spot] != 'X' && square[spot] != 'O'){
-	  square[spot] = mark;
+	spot = -1;
+	while (spot == -1){
+	  
+	  cout << "Player " << player << " - enter your move: ";
+	  cin >> spot;
+
+	  if ((spot<1)||(spot>9)){
+	    cout << "enter number 1 through 9!" << endl;
+	    spot = (int) -1;
+	    cin.clear();
+	    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	  }
+	  else if (square[spot] != 'X' && square[spot] != 'O'){
+	    cout << "heyyy" << endl;
+	    square[spot] = mark;
+	  }
+          else{
+	    cout << "illegal move!" << endl;
+	    spot = (int) -1;
+	    cin.clear();
+	    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+          }
+
 	}
-        else{
-	  cout << "illegal move!" << endl;
-	  player = (player+1) % 2;
-	  continue;
-        }
+	
 	// 3. draw board
 	drawboard();
 	// 4. check for win
