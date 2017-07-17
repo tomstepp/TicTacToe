@@ -1,2 +1,2 @@
 # TicTacToe
-C++ implementation
+C++ implementation for Linux Terminal
