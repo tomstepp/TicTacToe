@@ -17,6 +17,7 @@ int p1score = 0;
 int p2score = 0;
 
 int main(){
+  system("clear");
     cout << "Welcome to TicTacToe." << endl;
 
     int decision = 0;
@@ -50,18 +51,12 @@ void playVcomputer(){
   int spot;
   int result;
   char decision;
-
-  // Computer decision array
-  int size = 9;
-  int openSpaces[size];
-  int i;
-  for(i=0;i<9;i++){
-    openSpaces[i] = i+1;
-  }
-
+  
   while (player != -1){
 
     drawboard();
+    	cout << "spot:: " << spot << endl;
+
 	// 1. get player input
 	if (player == 2){
 	  player = 1;
@@ -81,13 +76,7 @@ void playVcomputer(){
 		    cin.ignore(numeric_limits<streamsize>::max(), '\n');
 		  }
 		  else if (square[spot] != 'X' && square[spot] != 'O'){
-		    //cout << "heyyy" << endl;
 		    square[spot] = mark;
-
-		    for (i=spot; i<8; i++){
-	              openSpaces[i] = openSpaces[i+1];
-	            }
-
 		  }
 		  else{
 		    cout << "illegal move!" << endl;
@@ -95,28 +84,25 @@ void playVcomputer(){
 		    cin.clear();
 		    cin.ignore(numeric_limits<streamsize>::max(), '\n');
 		  }
-
 		}
-
 	}
 	// computer
 	else{
 	  player = 2;
 	  mark = 'O';
-	
-	  int spot = rand() % size;
-	  square[spot] = mark;
-	  size = size - 1;
-
-	  for (i=spot; i<8; i++){
-	    openSpaces[i] = openSpaces[i+1];
+	  bool marked = false;
+	  while (!marked){
+	    int spot = (rand() % 9) + 1;
+	    if (square[spot] != 'X' && square[spot] != 'O'){
+		    square[spot] = mark;
+		    marked = true;
+	    }
 	  }
-
-
 	}
 
 	// 3. draw board
 	drawboard();
+
 	// 4. check for win
 	result = checkwin();
 
