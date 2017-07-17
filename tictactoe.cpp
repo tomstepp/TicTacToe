@@ -6,6 +6,8 @@ using namespace std;
 
 int drawboard();
 int checkwin();
+void playVplayer();
+void playVcomputer();
 
 // the 'o' is just to make the indexing easier (not good for memory)
 char square[10] = {'o','1','2','3','4','5','6','7','8','9'};
@@ -15,6 +17,132 @@ int p1score = 0;
 int p2score = 0;
 
 int main(){
+    cout << "Welcome to TicTacToe." << endl;
+
+    int decision = 0;
+    cout << "Select '1' for 2 player." << endl;
+    cout << "Select '2' to play vs computer." << endl;
+    cout << "Decision: ";
+
+    while (decision == 0){
+	  cin >> decision;
+
+	  if (decision == 1){
+	    playVplayer();
+	  }
+	  else if (decision == 2){
+	    playVcomputer();
+	  }
+          else{
+	    cout << "Please choose '1' or '2'" << endl;
+	    cout << "Decision: ";
+	    decision = 0;
+	    cin.clear();
+	    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+          }
+    }
+    return 0;
+}
+
+void playVcomputer(){
+  int player = 2;
+  char mark = 'X';
+  int spot;
+  int result;
+  char decision;
+
+  // Computer decision array
+  int size = 9;
+  int openSpaces[size];
+  int i;
+  for(i=0;i<9;i++){
+    openSpaces[i] = i+1;
+  }
+
+  while (player != -1){
+
+    drawboard();
+	// 1. get player input
+	if (player == 2){
+	  player = 1;
+	  mark = 'X';
+	
+		// Human
+		spot = -1;
+		while (spot == -1){
+		  
+		  cout << "Player " << player << " - enter your move: ";
+		  cin >> spot;
+
+		  if ((spot<1)||(spot>9)){
+		    cout << "enter number 1 through 9!" << endl;
+		    spot = (int) -1;
+		    cin.clear();
+		    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		  }
+		  else if (square[spot] != 'X' && square[spot] != 'O'){
+		    //cout << "heyyy" << endl;
+		    square[spot] = mark;
+
+		    for (i=spot; i<8; i++){
+	              openSpaces[i] = openSpaces[i+1];
+	            }
+
+		  }
+		  else{
+		    cout << "illegal move!" << endl;
+		    spot = (int) -1;
+		    cin.clear();
+		    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		  }
+
+		}
+
+	}
+	// computer
+	else{
+	  player = 2;
+	  mark = 'O';
+	
+	  int spot = rand() % size;
+	  square[spot] = mark;
+	  size = size - 1;
+
+	  for (i=spot; i<8; i++){
+	    openSpaces[i] = openSpaces[i+1];
+	  }
+
+
+	}
+
+	// 3. draw board
+	drawboard();
+	// 4. check for win
+	result = checkwin();
+
+	if (result == 1){
+	  cout << "Player " << player << " wins the game!" << endl;
+	  if (player == 1){
+	    p1score++;
+	  }else{
+	    p2score++;
+	  }
+	}
+	else if (result == 0){
+	  cout << "Tie game" << endl;
+	}
+	if (result >= 0){
+	  square = {'o','1','2','3','4','5','6','7','8','9'};
+	  cout << "Continue? (y/n): " << endl;
+	  cin >> decision;
+	  if (decision == 'n'){
+		return;
+	  }
+	}
+  }
+}
+
+void playVplayer(){
   int player = 2;
   char mark = 'X';
   int spot;
@@ -47,7 +175,7 @@ int main(){
 	    cin.ignore(numeric_limits<streamsize>::max(), '\n');
 	  }
 	  else if (square[spot] != 'X' && square[spot] != 'O'){
-	    cout << "heyyy" << endl;
+	    //cout << "heyyy" << endl;
 	    square[spot] = mark;
 	  }
           else{
@@ -80,13 +208,10 @@ int main(){
 	  cout << "Continue? (y/n): " << endl;
 	  cin >> decision;
 	  if (decision == 'n'){
-		return 0;
+		return;
 	  }
 	}
   }
-
-
-  return 0;
 }
 
 int drawboard(){
