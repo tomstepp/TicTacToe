@@ -76,7 +76,7 @@ int main(){
 int drawboard(){
   system("clear");
   cout << "-----------------------" << endl;
-  cout << "----- T1c t@c T03 -----" << endl;
+  cout << "----- T1cTacToe -------" << endl;
   cout << "-----------------------" << endl;
   cout << "Player 1 (X)  -  Player 2 (O) \n\n";
 
